@@ -66,7 +66,6 @@ const inject = (content) => {
   return content
 }
 
-const file = join(process.cwd(), 'index.d.ts');
 const rMark = /(\/{2} \{{3} Generated with minodisk\/gendts-material-ui-svg-icons)[\s\S]*?(\/{2} \}{3})/g
 
 categories()
@@ -86,33 +85,61 @@ categories()
     })
     .sort((a, b) => collator.compare(a.id, b.id))
     .reduce((prev, content)  => {
-      const {individuals, summarizeds} = prev
-      individuals.push(`declare module 'material-ui/${content.id}' {
+      const {dts, test} = prev
+      dts.individuals.push(`declare module 'material-ui/${content.id}' {
     export import ${content.className} = __MaterialUI.SvgIcon;
     export default ${content.className};
 }`)
-      summarizeds.push(`    export import ${content.className} = __MaterialUI.SvgIcon; // require('material-ui/${content.id}');`)
+      dts.summarizeds.push(`    export import ${content.className} = __MaterialUI.SvgIcon; // require('material-ui/${content.id}');`)
+
+      test.individuals.push(`import _${content.className} from 'material-ui/${content.id}';`)
+      test.summarizeds.push(`    ${content.className},`)
       return prev
-    }, {individuals: [], summarizeds: []})
+    }, {
+      dts: {individuals: [], summarizeds: []},
+      test: {individuals: [], summarizeds: []},
+    })
 )
-  .then(({individuals, summarizeds}) => {
-    let index = 0
-    return readText(file)
-      .then((script) => writeText(file, script.replace(rMark, (_, p1, p2) => {
-        let text = ''
-        switch (index) {
-          case 0:
-            text = individuals.join('\n\n')
-            break
-          case 1:
-            text = `declare module 'material-ui/svg-icons' {
-${summarizeds.join('\n')}
-}
-`
-            break
-        }
-        index++
-        return p1 + '\n' + text + '\n' + p2
-      })))
+  .then(({dts, test}) => {
+    return Promise.all([
+      (() => {
+        const {individuals, summarizeds} = dts
+        const file = join(process.cwd(), 'index.d.ts')
+        let index = 0
+        return readText(file)
+          .then((script) => writeText(file, script.replace(rMark, (_, p1, p2) => {
+            let text = ''
+            switch (index) {
+              case 0:
+                text = individuals.join('\n\n')
+                break
+              case 1:
+                text = summarizeds.join('\n')
+                break
+            }
+            index++
+            return p1 + '\n' + text + '\n' + p2
+          })))
+      })(),
+      (() => {
+        const {individuals, summarizeds} = test
+        const file = join(process.cwd(), 'material-ui-tests.tsx')
+        let index = 0
+        return readText(file)
+          .then((script) => writeText(file, script.replace(rMark, (_, p1, p2) => {
+            let text = ''
+            switch (index) {
+              case 0:
+                text = individuals.join('\n')
+                break
+              case 1:
+                text = summarizeds.join('\n')
+                break
+            }
+            index++
+            return p1 + '\n' + text + '\n' + p2
+          })))
+      })(),
+    ])
   })
   .catch((err) => console.error(err))
