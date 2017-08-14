@@ -1,6 +1,6 @@
 {
   "name": "gendts-material-ui-svg-icons",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Types generator for svg-icons module of material-ui in DefinitelyTyped.",
   "main": "index.js",
   "bin": {
