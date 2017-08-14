@@ -1,0 +1,29 @@
+{
+  "name": "gendts-material-ui-svg-icons",
+  "version": "1.0.2",
+  "description": "Types generator for svg-icons module of material-ui in DefinitelyTyped.",
+  "main": "index.js",
+  "bin": {
+    "gendts-material-ui-svg-icons": "./bin/gendts-material-ui-svg-icons"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minodisk/gendts-material-ui-svg-icons.git"
+  },
+  "keywords": [
+    "generator",
+    "material-ui",
+    "types",
+    "typescript",
+    "definitelytyped"
+  ],
+  "author": "Daisuke Mino",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/minodisk/gendts-material-ui-svg-icons/issues"
+  },
+  "homepage": "https://github.com/minodisk/gendts-material-ui-svg-icons#readme"
+}
