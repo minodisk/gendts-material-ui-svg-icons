@@ -1,6 +1,6 @@
 # gendts-material-ui-svg-icons
 
-Types generator for svg-icons module of material-ui in DefinitelyTyped.
+Types generator for svg-icons module of material-ui in [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped).
 
 ## How to execute
 
@@ -12,7 +12,7 @@ gendts-material-ui-svg-icons
 
 ## GitHub API Limitation
 
-When `gendts-material-ui-svg-icons` prints `GitHub response: 401 Unauthorized`, failed [Rate Limiting | GitHub API v3 \| GitHub Developer Guide](https://developer.github.com/v3/#rate-limiting). To avoid this case, publish [Personal access token](https://github.com/settings/tokens) and specify it like:
+The error `GitHub response: 401 Unauthorized` is due to [Rate Limiting | GitHub API v3 \| GitHub Developer Guide](https://developer.github.com/v3/#rate-limiting). In order to avoid this, it is necessary to publish [Personal access token](https://github.com/settings/tokens) and specify it as an environment variable.
 
 ```sh
 GITHUB_ACCESS_TOKEN=XXXXX gendts-material-ui-svg-icons
